@@ -19,7 +19,8 @@ urlpatterns = [
     path('contact', contact_page, name='contact'),
     path('login', login_page, name='login'),
     path('register', register_page, name='register'),
-    path('products/', include(('products.urls', 'products'), namespace='products'))
+    path('products/', include(('products.urls', 'products'), namespace='products')),
+    path('search/', include(('search.urls', 'search'), namespace='search'))
 ]
 
 if settings.DEBUG:
