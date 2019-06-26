@@ -1,5 +1,6 @@
-from django.urls import reverse
 from django.db import models
+from django.db.models import Q
+from django.urls import reverse
 from django.db.models.signals import pre_save
 
 from .utils import get_image_upload_path, unique_slug_generator
@@ -9,6 +10,10 @@ class ProductManager(models.Manager):
 
     def featured(self):
         return self.get_queryset().filter(featured=True)
+
+    def search(self, query):
+        lookups = Q(title__icontains=query) | Q(description__icontains=query) | Q(tag__title__icontains=query)
+        return self.get_queryset().filter(lookups).distinct()
 
 
 class Product(models.Model):
