@@ -7,7 +7,41 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1>Cart Home</h1>
+
+            {% if cart.products.exists %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in cart.products.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                        {% include 'products/snippets/update_cart.html' with product=product cart=cart %}
+                    </td>
+                    <td>{{ product.price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td><b>Subtotal</b> {{ cart.subtotal }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td><b>Total</b> {{ cart.total }}</td>
+                </tr>
+                </tbody>
+            </table>
+            {% else %}
+            <h4 class="lead">Cart is empty</h4>
+            {% endif %}
         </div>
     </div>
 </div>
